@@ -1,13 +1,14 @@
 <template>
-  <div :class="$style['component-container']">
-    <div :class="$style['top-content']">
-      <div :class="$style['statement']">
+  <div class="w-full h-full flex flex-col items-center">
+    <div class="pt-32 flex flex-col items-center">
+      <div class="p-10">
         "<b>{{ $store.state.socket.room.statement }}</b>"
       </div>
 
-      <p><b>Mas votados:</b></p>
-      <div :class="$style['most-voted']">
-        <table>
+      <p class="text-center mb-2"><b>Mas votados:</b></p>
+      <div class="w-64 flex justify-center text-center m-6 bg-gray-100
+                  shadow-md rounded ">
+        <table :class="$style.table" class="w-full">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -16,11 +17,11 @@
           </thead>
           <tbody>
             <tr
-            v-for="(username, index) in $store.state.socket.room.roundStats.mostVoted"
+            v-for="([username, quantity], index) in votes"
             :key="index"
             >
               <td>{{ username }}</td>
-              <td>{{ $store.state.socket.room.roundStats.reps }}</td>
+              <td>{{ quantity }}</td>
             </tr>
           </tbody>
         </table>
@@ -28,16 +29,15 @@
       </div>
     </div>
 
-    <div :class="$style['bottom-content']">
+    <div class="mt-12">
         <BaseButton
         v-if="!this.status.ready"
-        :disabled="status.ready"
         @clicked="handleReady"
         :loading="status.loadingReady"
         :text="'NEXT ROUND'"
         />
 
-        <div :class="$style['not-ready-usernames']">
+        <div v-else class="flex flex-col items-center">
           <div v-for="(username, index) in notReadyUsernames" :key="index">
             <p>{{ username }}</p>
           </div>
@@ -61,18 +61,19 @@ export default {
       notReadyUsernames: [],
     };
   },
-  mounted() {
+  created() {
+    // make a copy bc we wan't votes to persist if a user leaves
+    this.votes = [...Object.entries(this.$store.state.socket.room.roundStats.votes)];
+
     listenEvent('ready_success', (notReadyUsernames) => {
       this.status = { ready: true };
       this.notReadyUsernames = notReadyUsernames;
-      console.log(this.notReadyUsernames);
     });
 
     listenEvent('next_round', () => {
       this.$router.replace({ name: 'Game' });
     });
   },
-  computed: {},
   methods: {
     handleReady() {
       this.status = { loadingReady: true };
@@ -82,54 +83,10 @@ export default {
 };
 </script>
 
-<style lang="scss" module>
-.component-container {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+<style module>
 
-.top-content {
-  flex-grow: 1;
-  padding-top: 15vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.top-content .statement {
-  flex-grow: 1;
-  text-align: center;
-}
-
-.top-content .most-voted {
-  flex-grow: 2;
-  margin: 20px;
-  padding: 5px;
-  background-color: pink;
-  border-radius: 8px;
-  box-shadow: 0px 0px 6px 1px #000000;
-}
-
-.top-content .most-voted table {
-  border-spacing: .5rem;
-}
-
-.top-content .most-voted td, .top-content .most-voted th {
-  text-align: center;
-}
-
-.bottom-content {
-  flex-grow: 2;
-  margin-top: 5vh;
-}
-
-.bottom-content .not-ready-usernames {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.table, .table th, .table td {
+  padding: 10px;
 }
 
 </style>

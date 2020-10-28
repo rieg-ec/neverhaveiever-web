@@ -34,14 +34,17 @@ const actions = {
   removeUser({ commit }, username) {
     commit('removeUser', username);
   },
+  getAdmin({ commit }) {
+    commit('getAdmin');
+  },
   startGame({ commit }) {
     commit('startGame');
   },
   updateStatement({ commit }, statement) {
     commit('updateStatement', statement);
   },
-  updateRoundStats({ commit }, { reps, mostVoted }) {
-    commit('updateRoundStats', { reps, mostVoted });
+  updateRoundStats({ commit }, votes) {
+    commit('updateRoundStats', votes);
   },
 };
 
@@ -76,11 +79,14 @@ const mutations = {
     const userIdx = state.room.users.indexOf(username);
     state.room.users.splice(userIdx, 1);
   },
+  getAdmin(state) {
+    state.status.admin = true;
+  },
   updateStatement(state, statement) {
     state.room.statement = statement;
   },
-  updateRoundStats(state, { reps, mostVoted }) {
-    state.room.roundStats = { reps, mostVoted };
+  updateRoundStats(state, votes) {
+    state.room.roundStats = { votes };
   },
 };
 

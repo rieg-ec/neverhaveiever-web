@@ -1,36 +1,62 @@
 <template>
-  <div :class="$style['component-container']">
-
-    <div :class="$style['title']">
-      <GameTitle />
+  <div class="flex flex-col w-full h-full">
+    <div class="py-20 text-center text-4xl">
+      GUESS WHO
     </div>
 
-    <div :class="$style['top-content']">
+    <div class="flex flex-col h-full">
+      <div class="flex flex-col items-center py-8">
+        <div class="relative py-8">
+          <!-- TODO: test error label  -->
+          <label
+          v-if="errors.roomRequestFailure"
+          class="absolute top-0 px-6 text-sm text-red-500"
+          >
+            Invalid room id
+          </label>
 
-      <div :class="$style['inputs-container']">
-        <div :class="$style['input']">
-          <label v-if="errors.roomRequestFailure">Invalid room id</label>
-          <input type="text" placeholder="Enter room ID" v-model="roomID">
+          <input
+          class="bg-gray-200 appearance-none border-2 w-64
+                rounded-full outline-none py-4 px-4 text-gray-700
+                focus:bg-white focus:border-purple-700 shadow"
+          :class="errors.roomRequestFailure ? 'border-red-500' : 'border-gray-200'"
+          type="text"
+          placeholder="Enter room ID"
+          v-model="roomID"
+          >
         </div>
 
-        <div :class="$style['input']">
-          <label v-if="errors.usernameExists">Username exists.</label>
-          <input type="text" placeholder="Enter your name" v-model="username">
+        <div class="relative py-8">
+
+          <label
+          v-if="errors.usernameExists"
+          class="absolute top-0 px-6 text-sm text-red-500"
+          >
+            Username exists.
+          </label>
+
+          <input
+          class="bg-gray-200 appearance-none border-2 w-64
+                rounded-full outline-none py-4 px-4 text-gray-700
+                focus:bg-white focus:border-purple-700 shadow"
+          :class="errors.createRoomFailure ? 'border-red-500' : 'border-gray-200'"
+          type="text"
+          placeholder="Enter your name"
+          v-model="username"
+          >
         </div>
       </div>
 
-      <div :class="$style['create-room']">
+      <div class="flex justify-center py-4">
         <BaseButton
         :disabled="!validUsername"
         @clicked="handleCreate"
         :loading="status.loadingCreate"
         :text="'CREATE ROOM'"
         />
-
-        <label v-if="errors.createRoomFailure">Could not create room. Try again.</label>
       </div>
 
-      <div :class="$style['join-room']">
+      <div class="flex justify-center py-4">
         <BaseButton
         :disabled="!validUsername || !validRoomID"
         @clicked="handleJoin"
@@ -46,14 +72,13 @@
 
 <script>
 import BaseButton from '@/components/BaseButton.vue';
-import GameTitle from '@/components/GameTitle.vue';
 import socketService from '@/socket';
 
 const { emitEvents, listenEvent } = socketService;
 
 export default {
   name: 'Home',
-  components: { BaseButton, GameTitle },
+  components: { BaseButton },
   data() {
     return {
       username: '',
@@ -84,7 +109,7 @@ export default {
     },
     roomID() { this.errors.roomRequestFailure = false; },
   },
-  mounted() {
+  created() {
     listenEvent('username_exists', () => {
       this.status = {};
       this.errors = { usernameExists: true };
@@ -143,56 +168,6 @@ export default {
 };
 </script>
 
-<style lang="scss" module>
-
-.component-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.title {
-  padding: 50px;
-}
-
-.top-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.top-content > * {
-  margin: 3vh;
-}
-
-.top-content .create-room {
-  text-align: center;
-}
-
-.top-content .join-room {
-  text-align: center;
-}
-
-.top-content .inputs-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.top-content .inputs-container .input {
-  padding: 20px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-.top-content .inputs-container .input input {
-  padding: 5px;
-}
-
-.top-content .inputs-container .input label {
-  position: absolute;
-  top: 0px;
-}
+<style module>
 
 </style>

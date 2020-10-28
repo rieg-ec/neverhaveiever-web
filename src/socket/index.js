@@ -18,6 +18,10 @@ const receiveEvents = () => {
     console.log('removed user in socket/index.js');
     store.dispatch('socket/removeUser', username);
   });
+
+  socket.on('new_admin', () => {
+    store.dispatch('socket/getAdmin');
+  });
 };
 
 const listenEvent = (eventName, callback) => {

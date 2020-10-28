@@ -14,13 +14,29 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style>
+/* @import url('https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&display=swap'); */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: theme(colors.purple.700);
+  border-radius: 10px;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: 'PT Sans', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  background-color: pink;
+  -webkit-tap-highlight-color: transparent;
+  color: theme(colors.gray.800);
+  background-color: white;
   width: 100%;
   height: 100%;
 }
