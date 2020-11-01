@@ -61,7 +61,7 @@ export default {
   components: { BaseButton, TextInput },
   data() {
     return {
-      username: null,
+      username: '',
       roomID: '',
       errors: {},
       status: {},
