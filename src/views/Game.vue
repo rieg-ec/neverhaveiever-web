@@ -13,7 +13,7 @@
             <BaseButton
             :disabled= "!statement"
             @clicked="sendStatement"
-            :text="'SUBMIT'"
+            :text="'enviar'"
             />
           </div>
         </div>

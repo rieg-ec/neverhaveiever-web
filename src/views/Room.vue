@@ -7,12 +7,12 @@
 
     <div class="w-full flex flex-col items-center pb-12 px-16">
       <div class="text-center pt-2 pb-10 text-xl">
-        <h4>ROOM ID: {{ $store.state.socket.room.roomID }}</h4>
+        <p class="uppercase text-xl">id de sala: {{ $store.state.socket.room.roomID }}</p>
       </div>
 
       <div class="flex flex-col items-center w-full">
         <div class="text-base pb-6">
-          CONNECTED USERS:
+          <p class="uppercase">personas conectadas:</p>
         </div>
 
         <div class="relative w-48 h-48 sm:w-64 sm:h-64 flex justify-center">
@@ -29,7 +29,7 @@
       <div class="">
         <BaseButton
         @clicked="startGame"
-        :text="'START GAME'"
+        :text="'iniciar'"
         :loading="status.loadingStart"
         :disabled="!emptyRoom"
         />

@@ -31,7 +31,7 @@
         :disabled="!validUsername"
         @clicked="handleCreate"
         :loading="status.loadingCreate"
-        :text="'CREATE ROOM'"
+        :text="'crear'"
         />
       </div>
 
@@ -40,7 +40,7 @@
         :disabled="!validUsername || !validRoomID"
         @clicked="handleJoin"
         :loading="status.loadingJoin"
-        :text="'JOIN ROOM'"
+        :text="'ingresar'"
         />
       </div>
 
