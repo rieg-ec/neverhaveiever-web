@@ -4,7 +4,6 @@ import Home from '@/views/Home.vue';
 import Room from '@/views/Room.vue';
 import Game from '@/views/Game.vue';
 import Statements from '@/views/Statements.vue';
-import NotFound from '@/views/NotFound.vue';
 
 const routes = [
   {
@@ -26,10 +25,6 @@ const routes = [
     path: '/statements',
     name: 'Statements',
     component: Statements,
-  },
-  {
-    path: '/:catchAll(.*)',
-    component: NotFound,
   },
 ];
 
