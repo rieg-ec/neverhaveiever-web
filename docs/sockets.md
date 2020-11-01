@@ -1,26 +1,32 @@
-# SOCKET COMMUNICATION DOCS
+### EVENTS
 
-## EVENTS:
+*C: Client*
+*O: Owner of room*
+*S: Server*
+*A: All*
 
+**create_room** O-->S [ **create_room_success** **create_room_failure** ]
 
-### SERVER:
+**join_room** C-->S [ **join_room_success** **join_room_failure**     **username_exists**]
 
-`create_room_success` &rightarrow; emitted from the server, returns the created room id
+**connected_users** S-->A
 
-`create_room_failure` &rightarrow; emitted from the server, no payload
+**remove_user** O-->S
 
-`room_request_success`  &rightarrow; emmited from the server to the client to indicate that `room_request` event was succesful. payload: { room: Object }
+**kicked** S-->C
 
-`new_user`
+**start_game** O-->S
 
-`remove_user`
+**start_game** S-->A
 
-`username_exists` &rightarrow; emited from the server to the client to indicate username is taken
+**submit_statement** C-->S
 
-### CLIENT
+**users_without_statement** S-->A *users not ready for next statement*
 
-`room_request` &rightarrow; emitted from the client to request a room join. payload: { roomId: String, username: String };
+**start_statements** S-->A
 
-`create_room` &rightarrow; emitted from the client to create a room.
+**new_statement** S-->A
 
-`start_game` &rightarrow; emitted from the client (admin) to start the game
+**ready_for_next_statement** C-->S
+
+**users_not_ready** S-->A

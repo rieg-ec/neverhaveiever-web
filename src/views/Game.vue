@@ -1,119 +1,76 @@
 <template>
   <div class="w-full h-full flex flex-col items-center">
 
-    <div class="mt-20 p-20 text-center text-lg">
-      {{ $store.state.socket.room.statement }}
-    </div>
-
-    <div class="w-full">
-      <div v-if="!status.voted" class="w-full">
-        <div class="w-full flex justify-center h-40 py-6 mb-10">
-          <usersList
-          :users="$store.state.socket.room.users"
-          />
-        </div>
-
+      <div v-if="!status.submittedStatement" class="w-full pt-32">
         <div class="flex flex-col items-center">
-          <input
-          class="bg-gray-200 appearance-none border-2
-                rounded-full w-64 px-10 py-4 mb-6 outline-none text-gray-700
-                focus:bg-white shadow"
-          :class="selectedUser && !isUserValid ? 'border-red-500' : 'focus:border-purple-600'"
-          type="text"
-          placeholder="Pick a player"
-          v-model="selectedUser"
-          >
-
+          <div class="my-32">
+            <TextInput
+            :placeholder="'Nunca Nunca...'"
+            v-model:value="statement"
+            />
+          </div>
           <div class="text-center">
             <BaseButton
-            :disabled= "status.voted || !isUserValid"
-            @clicked="handleVote"
-            :loading="status.loadingVote"
-            :text="'VOTE'"
+            :disabled= "!statement"
+            @clicked="sendStatement"
+            :text="'SUBMIT'"
             />
           </div>
         </div>
       </div>
 
-      <div v-else class="w-full text-center">
-        <div v-if="connectedAndPendingToVoteUsers.length" class="py-6">
+      <div v-else class="w-full h-full text-center pt-32">
+        <div v-if="usersWithoutStatement.length" class="flex flex-col items-center">
           <p class="pb-10">Listo! esperando a:</p>
-          <div class="flex justify-center mb-20 h-72">
-            <usersList
-            :users="connectedAndPendingToVoteUsers"
-            />
+          <div class="relative w-48 h-1/2 sm:w-64 flex justify-center">
+            <UsersList :users="$store.state.socket.room.users"/>
           </div>
         </div>
 
         <div v-else>
-            <p>Todos votaron. Esperando al servidor...</p>
+          <p>Todos votaron. Esperando al servidor...</p>
         </div>
       </div>
-
-    </div>
 
   </div>
 </template>
 
 <script>
 import BaseButton from '@/components/BaseButton.vue';
+import UsersList from '@/components/UsersList.vue';
+import TextInput from '@/components/TextInput.vue';
 import socketService from '@/socket';
-import usersList from '@/components/usersList.vue';
 
 // eslint-disable-next-line no-unused-vars
-const { emitEvents, listenEvent } = socketService;
+const { socket } = socketService;
 
 export default {
   name: 'Game',
-  components: { BaseButton, usersList },
+  components: { BaseButton, UsersList, TextInput },
   data() {
     return {
       status: {},
-      selectedUser: null, // initial value
-      pendingToVoteUsers: [],
+      statement: null,
+      usersWithoutStatement: this.$store.state.socket.room.users,
     };
   },
   created() {
-    listenEvent('new_statement', (statement) => {
-      this.$store.dispatch('socket/updateStatement', statement);
+    socket.on('users_without_statement', (users) => {
+      this.usersWithoutStatement = users;
     });
 
-    listenEvent('new_voter', (pendingToVoteUsers) => {
-      this.pendingToVoteUsers = pendingToVoteUsers;
+    // TODO: make server event to transition to statement view before this
+    socket.on('start_statements', () => {
+      this.$router.replace({ name: 'Statements' });
     });
-
-    listenEvent('vote_success', () => {
-      this.status = { voted: true };
-    });
-
-    listenEvent('vote_failure', () => {
-      this.status = { loadingVote: false };
-    });
-
-    listenEvent('round_end', (votes) => {
-      this.$store.dispatch('socket/updateRoundStats', votes);
-      this.$router.replace({ name: 'Summary' });
-    });
-  },
-  computed: {
-    isUserValid() {
-      if (this.$store.state.socket.room.users.includes(this.selectedUser)) {
-        return true;
-      }
-
-      return false;
-    },
-    connectedAndPendingToVoteUsers() {
-      return this.pendingToVoteUsers
-        .filter((user) => this.$store.state.socket.room.users.includes(user));
-    },
   },
   methods: {
-    handleVote() {
-      if (this.isUserValid) {
-        this.status = { loadingVote: true };
-        emitEvents.voteUser(this.selectedUser);
-      }
+    sendStatement() {
+      this.status = { submittedStatement: true };
+      socket.emit(
+        'submit_statement', this.statement,
+        this.$store.state.socket.room.roomID,
+      );
     },
   },
 };

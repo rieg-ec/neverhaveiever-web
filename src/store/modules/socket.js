@@ -22,29 +22,20 @@ const actions = {
   updateUsername({ commit }, username) {
     commit('updateUsername', username);
   },
-  roomRequestSuccess({ commit }, { roomID, users }) {
-    commit('roomRequestSuccess', { roomID, users });
+  joinRoomSucess({ commit }, roomID) {
+    commit('joinRoomSucess', roomID);
   },
   createRoomSuccess({ commit }, roomID) {
     commit('createRoomSuccess', roomID);
   },
-  newUser({ commit }, username) {
-    commit('newUser', username);
+  connectedUsers({ commit }, usernames) {
+    commit('connectedUsers', usernames);
   },
-  removeUser({ commit }, username) {
-    commit('removeUser', username);
+  newStatement({ commit }, statement) {
+    commit('newStatement', statement);
   },
-  getAdmin({ commit }) {
-    commit('getAdmin');
-  },
-  startGame({ commit }) {
-    commit('startGame');
-  },
-  updateStatement({ commit }, statement) {
-    commit('updateStatement', statement);
-  },
-  updateRoundStats({ commit }, votes) {
-    commit('updateRoundStats', votes);
+  kicked({ commit }) {
+    commit('kicked');
   },
 };
 
@@ -53,40 +44,28 @@ const mutations = {
     state.isOnline = true;
   },
   disconnect(state) {
+    Object.assign(state, initialState);
     state.isOnline = false;
   },
-  leaveRoom(state) {
-    state.status = { connected: false };
-    state.room = {};
-  },
   updateUsername(state, username) {
-    // TODO: if i create a new module, move this to that module, this
-    // is not related to sockets
     state.username = username;
   },
-  roomRequestSuccess(state, { roomID, users }) {
-    state.room = { roomID, users };
+  joinRoomSucess(state, roomID) {
+    state.room.roomID = roomID;
     state.status = { connected: true, admin: false };
   },
   createRoomSuccess(state, roomID) {
     state.room = { roomID, users: [state.username] };
     state.status = { connected: true, admin: true };
   },
-  newUser(state, username) {
-    state.room.users.push(username);
+  connectedUsers(state, usernames) {
+    state.room.users = usernames;
   },
-  removeUser(state, username) {
-    const userIdx = state.room.users.indexOf(username);
-    state.room.users.splice(userIdx, 1);
-  },
-  getAdmin(state) {
-    state.status.admin = true;
-  },
-  updateStatement(state, statement) {
+  newStatement(state, statement) {
     state.room.statement = statement;
   },
-  updateRoundStats(state, votes) {
-    state.room.roundStats = { votes };
+  kicked(state) {
+    Object.assign(state, initialState);
   },
 };
 

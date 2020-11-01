@@ -1,34 +1,34 @@
 <template>
-  <div class="flex flex-col w-full h-full items-center">
+  <div class="w-full h-full flex flex-col items-center py-8">
 
-    <div class="py-16 text-center text-4xl">
-      GUESS WHO
+    <div class="py-16 text-center text-3xl">
+      NUNCA NUNCA...
     </div>
 
-    <div class="w-full flex flex-col items-center">
+    <div class="w-full flex flex-col items-center pb-12 px-16">
       <div class="text-center pt-2 pb-10 text-xl">
         <h4>ROOM ID: {{ $store.state.socket.room.roomID }}</h4>
       </div>
 
-      <div class="flex flex-col items-center mb-8 h-64 w-full">
+      <div class="flex flex-col items-center w-full">
         <div class="text-base pb-6">
           CONNECTED USERS:
         </div>
 
-        <usersList
-        :users="$store.state.socket.room.users"
-        />
+        <div class="relative w-48 h-48 sm:w-64 sm:h-64 flex justify-center">
+          <UsersList :users="$store.state.socket.room.users"/>
+        </div>
 
-        <div v-if="!$store.state.socket.status.admin" class="py-10">
-          wait for the admin to start the game :D
+        <div v-if="!$store.state.socket.status.admin" class="pt-12 text-center">
+          Espera a que el creador de la sala empiece el juego
         </div>
       </div>
     </div>
 
-    <div v-if="$store.state.socket.status.admin" class="flex justify-center w-1/2">
+    <div v-if="$store.state.socket.status.admin" class="">
       <div class="">
         <BaseButton
-        @clicked="handleStartGame"
+        @clicked="startGame"
         :text="'START GAME'"
         :loading="status.loadingStart"
         :disabled="!emptyRoom"
@@ -42,20 +42,20 @@
 <script>
 import socketService from '@/socket';
 import BaseButton from '@/components/BaseButton.vue';
-import usersList from '@/components/usersList.vue';
+import UsersList from '@/components/UsersList.vue';
 
-const { emitEvents, listenEvent } = socketService;
+const { socket } = socketService;
 
 export default {
   name: 'Room',
-  components: { BaseButton, usersList },
+  components: { BaseButton, UsersList },
   data() {
     return {
       status: {},
     };
   },
   created() {
-    listenEvent('start_game', () => {
+    socket.on('start_game', () => {
       this.$router.replace({ name: 'Game' });
     });
   },
@@ -64,10 +64,9 @@ export default {
     emptyRoom() { return this.$store.state.socket.room.users.length > 0; },
   },
   methods: {
-    handleStartGame() {
+    startGame() {
       this.status = { loadingStart: true };
-      console.log('room id: ', this.$store.state.socket.room.roomID);
-      emitEvents.startGame(this.$store.state.socket.room.roomID);
+      socket.emit('start_game', this.$store.state.socket.room.roomID);
     },
   },
 };

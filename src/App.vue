@@ -26,12 +26,11 @@ export default {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: theme(colors.purple.700);
+  background: theme(colors.deep-purple-400-accent);
   border-radius: 10px;
 }
 
 #app {
-  /* font-family: 'PT Sans', sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-tap-highlight-color: transparent;

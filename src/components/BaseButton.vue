@@ -3,9 +3,10 @@
     <button type="button"
     :disabled="disabled || loading"
     @click="$emit('clicked')"
-    class="bg-purple-700 text-white font-bold
-          py-4 px-6 flex justify-center items-center
-          rounded-full shadow-2xl focus:outline-none"
+    class="bg-deep-purple-400-accent text-white font-mono
+          py-2 px-6 flex justify-center items-center rounded
+          shadow-2xl focus:outline-none"
+
     :class="[$style.button,
             { 'transition duration-200 hover:bg-purple-400': !loading && !disabled,
               'transform active:translate-y-2': !loading && !disabled
@@ -26,14 +27,13 @@ export default {
     text: { type: String, required: true },
     disabled: { type: Boolean, default: false },
   },
-  components: {},
 };
 </script>
 
 <style module>
 .button {
-  width: 250px;
-  height: 65px;
+  width: 200px;
+  height: 45px;
 }
 
 @keyframes spin {
