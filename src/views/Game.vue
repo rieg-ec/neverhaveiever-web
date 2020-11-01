@@ -41,7 +41,6 @@ import UsersList from '@/components/UsersList.vue';
 import TextInput from '@/components/TextInput.vue';
 import socketService from '@/socket';
 
-// eslint-disable-next-line no-unused-vars
 const { socket } = socketService;
 
 export default {
