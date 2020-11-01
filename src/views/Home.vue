@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col w-full">
     <div class="py-20 text-center text-4xl">
-      GUESS WHO
+        NUNCA NUNCA...
     </div>
 
     <div class="flex flex-col">
