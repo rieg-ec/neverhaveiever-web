@@ -1,8 +1,8 @@
 import io from 'socket.io-client';
 import store from '../store';
 
-// TODO: move to env variable
-const socket = io('http://localhost:3000');
+const BACKEND_URL = process.env.VUE_APP_BACKEND_URL || 'http://localhost:3000';
+const socket = io(BACKEND_URL);
 
 const receiveEvents = () => {
   socket.on('connect', () => {
