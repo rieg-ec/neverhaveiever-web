@@ -3,12 +3,9 @@ version: '3.7'
 services:
   web:
     build: .
-    command: npm run serve
-    volumes:
-        - '.:/app'
-        - '/app/node_modules'
+    command: /usr/sbin/nginx -g "daemon off";
     env_file: .env
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
     ports:
-      - "3001:8080"
+      - "3001:80"

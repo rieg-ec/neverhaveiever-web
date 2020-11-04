@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      context: .
+      target: dev
+    command: npm run serve
+    volumes:
+        - '.:/app'
+        - '/app/node_modules'
+    env_file: .env
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3001:8080"
