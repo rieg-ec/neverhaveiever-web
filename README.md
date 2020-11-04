@@ -1,24 +1,13 @@
-# vote-who
+# vue.js front end for a neverhaveiever-anonymous game
 
 ## Project setup
+
+### Development
 ```
-npm install
+docker-compose up -f docker-compose-dev.yml --build
 ```
 
-### Compiles and hot-reloads for development
+### Production
 ```
-npm run serve
+docker-compose up --build
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
