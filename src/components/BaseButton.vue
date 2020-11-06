@@ -12,10 +12,11 @@
       { 'hover:opacity-75': !loading && !disabled },
       { 'bg-deep-purple-400-accent': !loading && !disabled },
     ]"
-    >
-      {{ loading ? '' : text }}
 
-      <div :class="$style.spinner" v-if="loading"></div>
+    :id="$style.button"
+    >
+      {{ text }}
+
     </button>
   </div>
 </template>
@@ -37,7 +38,7 @@ export default {
       const ripple = document.createElement('span');
       ripple.style.left = `${x}px`;
       ripple.style.top = `${y}px`;
-      document.querySelector(`.${this.$style.button}`).appendChild(ripple);
+      this.$el.firstChild.appendChild(ripple);
       setTimeout(() => {
         ripple.remove();
       }, 1000);
@@ -77,19 +78,5 @@ export default {
     height: 500px;
     opacity: 0;
   }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.spinner {
-  border: 4px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 6px solid theme(colors.purple.700);
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
 }
 </style>
