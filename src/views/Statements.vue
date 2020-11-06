@@ -19,7 +19,7 @@
         <b>Esperando a:</b>
       </div>
       <div class="relative w-48 h-1/2 sm:w-64 flex justify-center">
-        <UsersList :users="$store.state.socket.room.users"/>
+        <UsersList :users="usersNotReady"/>
       </div>
     </div>
   </div>

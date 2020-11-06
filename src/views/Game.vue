@@ -23,7 +23,7 @@
         <div v-if="usersWithoutStatement.length" class="flex flex-col items-center">
           <p class="pb-10">Listo! esperando a:</p>
           <div class="relative w-48 h-1/2 sm:w-64 flex justify-center">
-            <UsersList :users="$store.state.socket.room.users"/>
+            <UsersList :users="usersWithoutStatement"/>
           </div>
         </div>
 
