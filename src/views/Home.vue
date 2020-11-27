@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full h-full p-4">
-    <div class="py-1/10h text-center text-4xl">
+    <div class="py-1/20h text-center text-4xl">
         NUNCA NUNCA...
     </div>
 
