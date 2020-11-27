@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col w-full">
-    <div class="py-20 text-center text-4xl">
+  <div class="flex flex-col w-full h-full p-4">
+    <div class="py-1/10 text-center text-4xl">
         NUNCA NUNCA...
     </div>
 
-    <div class="flex flex-col">
-      <div class="flex flex-col items-center py-8">
+    <div class="flex flex-col h-full">
+      <div class="flex flex-col items-center justify-center mt-1/20 flex-grow">
         <div class="relative py-8 w-64">
           <TextInput
           :placeholder="'Ingresa el ID de alguna sala'"
@@ -26,22 +26,24 @@
         </div>
       </div>
 
-      <div class="flex justify-center py-4">
-        <BaseButton
-        :disabled="!validUsername"
-        @clicked="handleCreate"
-        :loading="status.loadingCreate"
-        :text="'crear'"
-        />
-      </div>
+      <div class="flex-grow">
+        <div class="flex justify-center py-6">
+          <BaseButton
+          :disabled="!validUsername"
+          @clicked="handleCreate"
+          :loading="status.loadingCreate"
+          :text="'crear'"
+          />
+        </div>
 
-      <div class="flex justify-center py-4">
-        <BaseButton
-        :disabled="!validUsername || !validRoomID"
-        @clicked="handleJoin"
-        :loading="status.loadingJoin"
-        :text="'ingresar'"
-        />
+        <div class="flex justify-center py-6">
+          <BaseButton
+          :disabled="!validUsername || !validRoomID"
+          @clicked="handleJoin"
+          :loading="status.loadingJoin"
+          :text="'ingresar'"
+          />
+        </div>
       </div>
 
     </div>

@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-full flex flex-col items-center py-8">
+  <div class="w-full flex flex-col items-center py-8">
 
-    <div class="py-16 text-center text-3xl">
+    <div class="py-1/10 text-center text-3xl">
       NUNCA NUNCA...
     </div>
 
@@ -15,7 +15,7 @@
           <p class="uppercase">personas conectadas:</p>
         </div>
 
-        <div class="relative w-48 h-48 sm:w-64 sm:h-64 flex justify-center">
+        <div class="relative w-48 h-1/4 sm:w-64 sm:h-64 flex justify-center">
           <UsersList :users="$store.state.socket.room.users"/>
         </div>
 
