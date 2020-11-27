@@ -1,7 +1,7 @@
 <template>
   <div class="w-full flex flex-col items-center py-8">
 
-    <div class="py-1/10 text-center text-3xl">
+    <div class="py-1/20h text-center text-3xl">
       NUNCA NUNCA...
     </div>
 

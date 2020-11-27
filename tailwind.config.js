@@ -53,6 +53,11 @@ module.exports = {
       '1/5': '20%',
       '1/3': '33%',
       '1/2': '50%',
+      '1/20h': '5vh',
+      '1/10h': '10vh',
+      '1/5h': '20vh',
+      '1/3h': '33vh',
+      '1/2h': '50vh',
     },
     backgroundColor: theme => theme('colors'),
     backgroundImage: {
